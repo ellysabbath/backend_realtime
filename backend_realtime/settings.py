@@ -15,10 +15,19 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # third-party
+
     'corsheaders',
-    # local
+
+    # local apps (in dependency order)
+    'core',
     'api',
+    'auths',
+    'chats',
+    'customers',
+    'technicians',
+    'owners',
+    'admins',
+    'notifications',
 ]
 
 # ── Middleware ──
@@ -87,3 +96,19 @@ CORS_ALLOWED_ORIGINS = [
 # ── Firebase ──
 FIREBASE_CREDENTIALS_PATH = BASE_DIR / 'serviceAccountKey.json'
 FIREBASE_DATABASE_URL = 'https://data-537e6-default-rtdb.firebaseio.com/'
+
+
+# ============================
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'qfix910@gmail.com'
+EMAIL_HOST_PASSWORD = 'sbntxflapmitoakx'
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+DEFAULT_FROM_EMAIL = 'noreply@omaflowers.com'
+AT_USERNAME = "qfix"                # your AT production username
+AT_API_KEY = "atsk_152378670676d07a251df2a73016e1c2a179a77584397dc5af2ff185ea5e250bcb267d17"                 # new key from AT dashboard
+AT_SENDER_ID = "QuickFix"                         # optional shortcode
+AT_BASE_URL = "https://api.africastalking.com/version1/messaging"
