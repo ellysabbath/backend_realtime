@@ -50,6 +50,7 @@ def requests(request):
         'plateNumber': b.get('plateNumber', ''),
         'problemType': b.get('problemType', ''),
         'problemDescription': b.get('problemDescription', ''),
+        'vehiclePhoto': b.get('vehiclePhoto', ''), # <-- ADDED THIS LINE
         'status': 'pending',
         'estimatedCost': 0,
         'createdAt': {'.sv': 'timestamp'},
@@ -57,7 +58,7 @@ def requests(request):
     new.set(payload)
     rtdb.reference('/technicianRequests').child(new.key).set(payload)
 
-    # ─── NEW: Create Notifications ───
+    # ─── Create Notifications ───
     # 1. Notify all active technicians
     techs = rtdb.reference('/technicians').get() or {}
     active_techs = [t for t in techs.values() if t.get('status') == 'active']
@@ -75,7 +76,7 @@ def requests(request):
                 'createdAt': {'.sv': 'timestamp'},
             })
             
-    # 2. Notify the Admin (if you use an 'admin' ID or notify all admins)
+    # 2. Notify the Admin
     notif_admin = rtdb.reference('/notifications').push()
     notif_admin.set({
         'userId': 'admin',
@@ -223,6 +224,7 @@ def stream_location(request, rid):
     response['X-Accel-Buffering'] = 'no'
     response['Connection'] = 'keep-alive'
     return response
+
 
 @csrf_exempt
 @require_http_methods(['GET'])
